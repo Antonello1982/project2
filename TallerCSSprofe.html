@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+
+
+
+    <style>
+        .avatar {
+            width: 40px;
+            display: block;
+            margin-left: auto;
+            margin-right: 10px;
+            margin-top: 20;
+        }
+
+        .avatar:hover {
+            width: 44px;
+
+        }
+
+        body {
+            background-color: #E3D8D6;
+            text-align: center;
+
+
+        }
+
+        header {
+            background-color: gray;
+            height: 70px;
+            padding-top: 15px;
+            box-shadow: 10px 10px black;
+        }
+
+        .principal-container {
+            background-color: white;
+            text-align: center;
+            font-size: 30px;
+            font-family: 'Lato', sans-serif;
+            box-shadow: 10px 10px black;
+
+        }
+
+        .gallery img {
+            width: 200px;
+
+
+
+
+        }
+
+        .gallery img:hover {
+            width: 210px;
+            border: 5px solid blue
+        }
+
+        /*the container must be positioned relative:*/
+        .custom-select {
+            position: relative;
+            font-family: Arial;
+        }
+
+        .custom-select select {
+            display: none;
+            /*hide original SELECT element:*/
+        }
+
+        .select-selected {
+            background-color: DodgerBlue;
+        }
+
+        /*style the arrow inside the select element:*/
+        .select-selected:after {
+            position: absolute;
+            content: "";
+            top: 14px;
+            right: 10px;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-color: #fff transparent transparent transparent;
+        }
+
+        /*point the arrow upwards when the select box is open (active):*/
+        .select-selected.select-arrow-active:after {
+            border-color: transparent transparent #fff transparent;
+            top: 7px;
+        }
+
+        /*style the items (options), including the selected item:*/
+        .select-items div,
+        .select-selected {
+            color: #ffffff;
+            padding: 8px 16px;
+            border: 1px solid transparent;
+            border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /*style items (options):*/
+        .select-items {
+            position: absolute;
+            background-color: DodgerBlue;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        /*hide the items when the select box is closed:*/
+        .select-hide {
+            display: none;
+        }
+
+        .select-items div:hover,
+        .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header> <img class="avatar"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAABAlBMVEX////I7f+U1PMAAAAAGDCw5v8ARWYAO1wndpXL7/+W1/by8vKS0e/M8f/8/Pzt7e2JxeJ5eXnP9f8AAB8YGBiAuNMAQWN6sMkAN1kAACKhoaFqma/V1dWVlZWDg4MhMTjLy8u0tLTh4eELEBJzpr4qKiofHx9GRka+vr4AMFUdKjCq2vG34/dQUFAYIygAK0g0TFxTeYwAKFAAHkkAECsAABoAABNpaWk4ODg6VGBchpoRGR0uQkxDYW8qWXZLbHxcXFzd8/4AZYiayd4VJjopPU6qy9s/ZX95l6qJrr9bka9MfZpUc4227/9uhpq5ydMoQmFpfogABC6KlqTN3OMAEkLY8MNhAAAMEklEQVRoge2be1fayhbAjQIhIYEYDYkEUCC1IhEL4gt5VEGQHutp7+39/l/lzjuTZBLw0f7VvdZZ9WhmftnPmUx2trb+yl9JkWKhedKo1OpAapXGSbNQ/CPYZqP+dX8nIvtf643mb8WWKtdRKC/XldLv4TYrn9K4WD5VPlz54slZlNK66wK5a0V/f3bykZ4vVW64ubuHt9Oh63meDQT84w6nt4dd7oKbDzN8gbP03ajnepahAdnWtoGAf4AYluf2Rnec3QsfQa4csxlvh7ZhIGJcNMOwh7fs0uPKu8FVpvFoaCVhA7w1HDHNq+8CF1gyjb11XEr3xnTM9TusfkJs3Rrbm4Ex3B6TsD8+eSO4WKcu3lBjTnPq9PqbEq30mfjYFYHxr1Qg26K/Gi7x+ec35FmVFOqpFZ0a5FXH9yVJUfzFYgF+9Dvwd5GLrCkev//qaDvBAw9dLcrt+ACqm4unZbvfboP/lk8LU/E7UbrmHuI5XunwColrS1PDXEVRJMnUV7m+XM5hKTv9JYArSpiuahaJ9VeleA2PGRohNToS5EqKuco5lEvo7Wdfh3/thFQ3hnie2mvJdyFjQ7AERZeW7VxMnNxCh7cVhmvu3evY2NpdTxOAFWBrOU6GZp+ZUgyued3X2BxH2KnNz0DAkq6/tMsiMmQjvSGcH2mfbh5r1RhZ6+A5YT4tHTEYsX16g5zilL1BjpVQPnd5MlUZzDkRGpuyf5j0FiWejWy+v7a2FFENuwvIIJ8oWDKXaeRcrv1EzSMpgeKajWLt87qaiut2EGGaH5D1mSC0Q+IwtKT4wRwerufpZBxiQyEZmBsD5MkGaofYw/WhVkCr5DiBPOtjl05UOyHYykvuep6N6tpx2vqNdgaHhpAs6UOUVuWcmlVtWZxibV/MNlA9v04m47zyxGRJmSCcY2SzWdXICRVvL3RJyPbWZBjah/U0MVnyUZA537JQVPVb24lr7rimJGRrPTj3pyQyKqAjam4+q5C9F33s6Cxha9+WuTbg8zdQHobQXI4Zo5SCWtgPmztMBmioteNlmQC6Znn/TORA/fJzGC0pYZPviyOtFopuTZJE6Ml2lhe0QzLcicPQenQcm3CcuIaVoKdbdoK5od/6zNMxvJ0rJ6ADk9st6G1RPUWenmoJ5oYCVGtrcTTGPztCg3Mm16YJ3i6gJzorydwSSq7yREyG8g9ky8MYOjC5BQk3cW83eKXj5obO7jnl52R09rkMNkqrmK8Dk2O1GzE0en62U5SW9NVze+InoztybphbxNGB2jZknEXJqJCN0pSW/O9Zr99JRvuT7PeO6J4DtUeikoYya6imKC2BYPo+SUF3vKyaFY6kaqtDUX6hGmoQtFBpCYRx9jkNPQRZJmQrHYI2BNW0icpJmqcxejhLQbtJ6MDbqKyET3pQUrvU3kKlIVr1rGT0zE0k09xW3Xhqf4UbMktNCTLka3WWhp4lo0mgqRbcpn0NoeHN3NI1RjwcWzxVEtGSRNdD9OAdS60hdbUoNTdDZ/2EoTp19jCaXsjVXrq9EfutSjOLe1Fnwy1wl7o66c7Bxj5d6USdgfjU2d3wtrh4xpWyRFdDeEodzWalRHNJzNmooJ0FTwOFFpfVRtoEqXqnjVNonMHMbgWrV4mroimuhjO8GU2djeIs2C9UuYKSjpZSLJ42LEC74RBHa7W9LsqwvBHN4swOr9kot9YGOL77RPKaW2YhHs6uGl9G10yRqPaaYT5fSoN1E6U1WTHTcgvP8SYyzS7VCCf2LnrIU9NWzHVqr7MVXTdV9OC3K0Sv1VoyRejUtAhp/Xa0rr+IKvmLvg7+brTuT5bfY2xVHS7XscXozcNM9+WLVTayesInn38vlklrbQQdDjOUXBSdFjC633bavzCNB6t+wekvBQ8egfgUHU6ujUuK/sORncI9I1LpbG39cPovaeyEksIX0jStzee27PzY2tI5fZGARXDpyP1VCptqHSmkR5ttUszVhSw7EzAgktv34FcvbVlu64ns8DbliKGb/KI5E6N1U1kAc8vOEo5QomSMXq50XRxtyoxfNIOdOFqvx2QXbojGmubi5+A/MpD2MxpyH1RQPMd/AVp2LvZ+LkzRBDrZKqjj8HpdQBskuksRgVePOwcZB6Kx1hD+HVUxutdBaFnOHOzcCuF0l4I2SNwzNqwppwnZpZjS0+XlIJPJoLmRrwXygtBlcNngar4yo05nuXUaqijkOdMWxZkOLJ3Zy0A5x+gfwbDFr+DnJbKJfA6vHFw+rpTwAVqH3ynwm+Ej/hGXd7a+GBMwRYO8pqPu814wxQ+MdvC1g6vHJ4U/X6WuHoYDHDgbPfgQtMXdrA9cTAWT5TZT1cs/LOjPRYKW6dWDnTGvNzmkUdGDD3+cgjbiXbpVXrDbNX/uMTLVuv0vNfdDPp+nUfYLRxk2OJad4HBDWdBNfje8DafOpkUl2Ikrgwwn52WEfiK3m4dCTb7qoyjjyJmDn0xtxeALSvhYAW2Hp9TZTOnVVSYkOMSLxNxQiMnvn9oRnaHNA2dTV0/jhylFdAZPUk+bUUvdDjJx9oUJR/gPeSyolpnI1WFy5orWdH1GHzQh5TjyEqTOWZwGmr64jJBRKPVnYOz9N0J+8OH/+RehGCNas0CjQYbsHX0HcsTHuIHVNp/CaBpnT/db93qHaO3pClAauzqmNw5YfUbtfRtNLWTxz/wRElZbHw0EZNnJmUVwX8TXYPL7ovlMUivMvnoyQ0qjA6T4Sye0XejxauuLAxFZlv8HXw/oM6w1fpF5wf7o8BYfmSGle/FDHChNdHLGTlJBITdfLsXoNlRGx85+gGVXp/aOqn0AU9tnZ76Q8EnQpFTj1dYsXTLn4fhmbGcCQ4H5GqCZvUNKZzKX4CZ12nGAlRadxaPmhBb1ttExF3uZsLD5LxY6tXc+r8NDeqZ0eMRgbuodam4DHiAIWxdwLwgtK9uWPj6IoDNMtRdTd2lydRTzqS8mZzJ7CxpjpJyIu0WaLW5jCky+E52HsR3Zl6jSeVtXJsL4RuiftJrgrWhL3I5WrPG5va31ogYP3N1fsWKW/6YvLpLImT321gzndC3hdS5+dU1PSreNcbSYBWv20mNaP+i9doK5M5djui/CBxnJL7HRfpzVlW3jS1xvYlqHKZ3Pr6JLdaDzF0ZG1UTw8oGZHJ7S7oyYyS0BmyiYC9APyWTWyaOi8/+vKW/PcfdPbxN2gC4nhRhHRimd2hNUxH0hHseO+fs8YvEHR0y+5Mj4PW4ltWWA9LZZjG2MY3pjdpmic4IqBnUes4YtnFdrO9+a6E1bl4XattG7FO0XArUdkaMHlz32Ah4/Uu/crOswLR6hwnIatD1p7jxa1hBsgsm4nEQuOJgHTUSqhhpTWkdru96KOMMOObY1vhrE2Q4XZJE92dXY4si496uxQb8dCTWebbjz+H6FWNyJL1dzri+PktNDjEoB96acBv4GivfCVndoak+i5IN5j+vLw89YYNXYsLmytIsu71oc27Cn84NBmE3jmzP1wXzKN1/iQ3/wfLdxhyFht7yADULd7s33AjixuMM5erA379l8d5zqtV5JBmzSx9lTQ/19lns7uCK6n6MYB/F9TvS9Gty6oRZIFdcwYO1XdVUWSIvfyODZsDPXXT4eXO0NBoNz6Oyccw5+3Ls6eFy6kb5e1SD9nLVXNtEWGthWYA0NwSHddnvjL49z6Oxc+fHxy7jn2tF+YhWvksBrjVe37xaPSE/4rRWBw7ZsA9wAEcuAPdvbEbBF+mdv1lcSAbtJe5WnRoQd3IP496pB+ld3rptv6twtliqkg7Y11BLgQrA2JM7ar5Te2pxfPGJfAPS0qNkTuKrWo2PO3mLsuOKwX1pdR4cvuFlj/DtUJvBqvbXDVLe1RDz4g2YzhXda9er7P4QoHO0GX7d0xyB98ZEsxwQCEn4cfAWxv3v0Id8hFAGc/9rkcDSFX0GgzyBQmnnudHTIXfAJgD/q249ioVrjv/zABjg8HI0OQx984EyuVT/2c6NCqbF7HKXE5Xi3UfoQU4cEfklV/5zG/Vz/fd9XFQulaqN+fdOKQls31/VGtfR7v+sqAnyzetSo1XevkezWa42jahNg/8z3ZOAGgJSAwH//EPSvvFP+D77mgKbhAvDQAAAAAElFTkSuQmCC"
+            alt=""> </header>
+
+    <div class="principal-container">
+        <h1> Felicitaciones BIT</h1>
+
+        <div class="gallery">
+
+            <img src="https://image.shutterstock.com/image-illustration/congratulations-happy-work-anniversary-words-600w-2022744155.jpg"
+                alt="">
+            <img src="https://image.shutterstock.com/image-vector/happy-business-people-office-workers-600w-1827420281.jpg"
+                alt="">
+            <img src="https://image.shutterstock.com/image-photo/close-pinned-note-on-cork-600w-1891344439.jpg" alt="">
+            <img src="https://image.shutterstock.com/image-photo/congratulations-achievement-celebration-admiration-concept-600w-323051300.jpg"
+                alt="">
+            <img src="https://image.shutterstock.com/image-vector/happy-proud-businessman-many-thumbs-600w-566813125.jpg"
+                alt="">
+            <img src="https://image.shutterstock.com/image-vector/group-people-congratulate-person-by-600w-1788587822.jpg"
+                alt="">
+                <center>
+                <div class="custom-select" style="width:200px;">
+                <div class="select a person" 
+                
+                <center>
+                <div class "custom-select" style="width:2 200px;">
+                    
+                    <h6>Select a person</h6>
+                 
+                        <select name="person" id="">
+                          
+                            <option value="">Liliana</option>
+                            <option value="">Antonio</option>
+                            <option value="">Antonella</option>
+                            <option value="">Emiliano</option>
+                            <option value="">Lulú</option>
+                        
+                        </select>
+                    
+                    <br>
+
+
+
+                </center>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        var x, i, j, l, ll, selElmnt, a, b, c;
+        /*look for any elements with the class "custom-select":*/
+        x = document.getElementsByClassName("custom-select");
+        l = x.length;
+        for (i = 0; i < l; i++) {
+            selElmnt = x[i].getElementsByTagName("select")[0];
+            ll = selElmnt.length;
+            /*for each element, create a new DIV that will act as the selected item:*/
+            a = document.createElement("DIV");
+            a.setAttribute("class", "select-selected");
+            a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+            x[i].appendChild(a);
+            /*for each element, create a new DIV that will contain the option list:*/
+            b = document.createElement("DIV");
+            b.setAttribute("class", "select-items select-hide");
+            for (j = 1; j < ll; j++) {
+                /*for each option in the original select element,
+                create a new DIV that will act as an option item:*/
+                c = document.createElement("DIV");
+                c.innerHTML = selElmnt.options[j].innerHTML;
+                c.addEventListener("click", function (e) {
+                    /*when an item is clicked, update the original select box,
+                    and the selected item:*/
+                    var y, i, k, s, h, sl, yl;
+                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                    sl = s.length;
+                    h = this.parentNode.previousSibling;
+                    for (i = 0; i < sl; i++) {
+                        if (s.options[i].innerHTML == this.innerHTML) {
+                            s.selectedIndex = i;
+                            h.innerHTML = this.innerHTML;
+                            y = this.parentNode.getElementsByClassName("same-as-selected");
+                            yl = y.length;
+                            for (k = 0; k < yl; k++) {
+                                y[k].removeAttribute("class");
+                            }
+                            this.setAttribute("class", "same-as-selected");
+                            break;
+                        }
+                    }
+                    h.click();
+                });
+                b.appendChild(c);
+            }
+            x[i].appendChild(b);
+            a.addEventListener("click", function (e) {
+                /*when the select box is clicked, close any other select boxes,
+                and open/close the current select box:*/
+                e.stopPropagation();
+                closeAllSelect(this);
+                this.nextSibling.classList.toggle("select-hide");
+                this.classList.toggle("select-arrow-active");
+            });
+        }
+        function closeAllSelect(elmnt) {
+            /*a function that will close all select boxes in the document,
+            except the current select box:*/
+            var x, y, i, xl, yl, arrNo = [];
+            x = document.getElementsByClassName("select-items");
+            y = document.getElementsByClassName("select-selected");
+            xl = x.length;
+            yl = y.length;
+            for (i = 0; i < yl; i++) {
+                if (elmnt == y[i]) {
+                    arrNo.push(i)
+                } else {
+                    y[i].classList.remove("select-arrow-active");
+                }
+            }
+            for (i = 0; i < xl; i++) {
+                if (arrNo.indexOf(i)) {
+                    x[i].classList.add("select-hide");
+                }
+            }
+        }
+        /*if the user clicks anywhere outside the select box,
+        then close all select boxes:*/
+        document.addEventListener("click", closeAllSelect);
+    
+    </script>
+
+    <input type="Submit">
+
+</body>
+
+</html>
